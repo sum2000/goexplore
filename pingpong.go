@@ -22,4 +22,16 @@ func main() {
 	ping(pings, "passed message")
 	pong(pings, pongs)
 	fmt.Println(<-pongs)
+
+	// channel of buffer size 2. If channel is blocked until full
+	pings2 := make(chan string, 2)
+	ping(pings2, "passed another message")
+	ping(pings2, "final message")
+	pong(pings2, pongs)
+	// pongs channel is now unblocked
+	fmt.Println(<-pongs)
+	// pings2 still holds one more msg
+	pong(pings2, pongs)
+	fmt.Println(<-pongs)
+
 }
